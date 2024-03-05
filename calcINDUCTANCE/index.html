@@ -10,14 +10,27 @@
 </head>
 
 <body>
+    <img src="img/RCL-sch.svg" alt="RCL-sch" width=100 height=100>
+
     <form name="elementsForm" action="#" id="forms">
-        <div id="Freq">
-            <label for="Freq" id="freqLabel">周波数</label>
-            <input type="number" id="freqForm" value=50>
+        <div id="FreqInfo">
+            <label for="FreqForm">周波数</label>
+            <input type="radio" name="Hz" value="1">Hz
+            <input type="radio" name="Hz" value="2">kHz
+            <input type="radio" name="Hz" value="3" checked="checked">MHz
         </div>
-        <div id="Capa">
-            <label for="Capa" id="capaLabel">容量</label>
-            <input type="number" id="capaForm" value=100>
+        <div id="FreqVal">
+            <input type="number" id="FreqForm" value=13.56>
+        </div>
+
+        <div id="CapaInfo">
+            <label for="capaForm">容量</label>
+            <input type="radio" name="F" value="1">mF
+            <input type="radio" name="F" value="2">μF
+            <input type="radio" name="F" value="3" checked="checked">pF
+        </div>
+        <div id="CapaVal">
+            <input type="number" id="capaForm" value=47>
         </div>
     </form>
 
