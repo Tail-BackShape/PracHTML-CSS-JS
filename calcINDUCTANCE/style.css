@@ -1,7 +1,7 @@
 #forms {
     display: grid; /* グリッドレイアウト */
     grid-template-rows: 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px;
-    grid-template-columns: 50px 50px 50px 50px 50px 50px;
+    grid-template-columns: 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px;
 
 #FreqInfo {
     grid-row: 1/2;
@@ -29,7 +29,7 @@
 
 #result {
     grid-row: 8/9;
-    grid-column: 1/6;
+    grid-column: 1/9;
 }
 
 #indVal {

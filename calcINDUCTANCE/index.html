@@ -15,9 +15,9 @@
     <form name="elementsForm" action="#" id="forms">
         <div id="FreqInfo">
             <label for="FreqForm">周波数</label>
-            <input type="radio" name="Hz" value="1">Hz
-            <input type="radio" name="Hz" value="2">kHz
-            <input type="radio" name="Hz" value="3" checked="checked">MHz
+            <input type="radio" name="f" value="1">Hz
+            <input type="radio" name="f" value="2">kHz
+            <input type="radio" name="f" value="3" checked="checked">MHz
         </div>
         <div id="FreqVal">
             <input type="number" id="FreqForm" value=13.56>
@@ -25,24 +25,27 @@
 
         <div id="CapaInfo">
             <label for="capaForm">容量</label>
-            <input type="radio" name="F" value="1">mF
-            <input type="radio" name="F" value="2">μF
-            <input type="radio" name="F" value="3" checked="checked">pF
+            <input type="radio" name="C" value="1">mF
+            <input type="radio" name="C" value="2">μF
+            <input type="radio" name="C" value="3" checked="checked">pF
         </div>
 
         <div id="CapaVal">
             <input type="number" id="capaForm" value=47>
         </div>
 
-        <div id="sendButton">
+        <div id="funcButton">
             <input type="button" value="計算" onclick="calcInductance()">
         </div>
 
         <div id="result">
             <label for="resultForm">インダクタンス</label>
+            <input type="radio" id="L" value="1">H
+            <input type="radio" id="L" value="2">mH
+            <input type="radio" id="L" value="3" checked="checked">μH
         </div>
 
-        <div id="resultVal">
+        <div id="indVal">
             <input type="number" id="inductance" value=0>
         </div>
     </form>
