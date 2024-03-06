@@ -1,24 +1,38 @@
 #forms {
     display: grid; /* グリッドレイアウト */
-    grid-template-rows: 30px 30px 30px 30px 30px;
-    grid-template-columns: 300px 300px 200px;
-}
+    grid-template-rows: 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px;
+    grid-template-columns: 50px 50px 50px 50px 50px 50px;
 
 #FreqInfo {
     grid-row: 1/2;
-    grid-column: 1/2;
+    grid-column: 1/6;
 }
 #FreqVal {
     grid-row: 2/3;
-    grid-column: 1/2;
+    grid-column: 1/6;
 }
 
 #CapaInfo {
     grid-row: 4/5;
-    grid-column: 1/2;
+    grid-column: 1/6;
 }
 
 #CapaVal {
     grid-row: 5/6;
-    grid-column: 1/2;
+    grid-column: 1/6;
+}
+
+#funcButton {
+    grid-row: 6/7;
+    grid-column: 4/6;
+}
+
+#result {
+    grid-row: 8/9;
+    grid-column: 1/6;
+}
+
+#indVal {
+    grid-row: 9/10;
+    grid-column: 1/6;
 }
