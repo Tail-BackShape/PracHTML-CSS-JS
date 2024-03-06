@@ -29,8 +29,21 @@
             <input type="radio" name="F" value="2">μF
             <input type="radio" name="F" value="3" checked="checked">pF
         </div>
+
         <div id="CapaVal">
             <input type="number" id="capaForm" value=47>
+        </div>
+
+        <div id="sendButton">
+            <input type="button" value="計算" onclick="calcInductance()">
+        </div>
+
+        <div id="result">
+            <label for="resultForm">インダクタンス</label>
+        </div>
+
+        <div id="resultVal">
+            <input type="number" id="inductance" value=0>
         </div>
     </form>
 
