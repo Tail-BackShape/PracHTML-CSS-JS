@@ -12,7 +12,7 @@
 <body>
     <img src="img/RCL-sch.svg" alt="RCL-sch" width=100 height=100>
 
-    <form name="elementsForm" action="#" id="forms">
+    <form name="elementsForm" id="forms">
         <div id="FreqInfo">
             <label for="FreqForm">周波数</label>
             <input type="radio" name="f" value="Hz">Hz
@@ -41,14 +41,19 @@
 
         <div id="result">
             <label for="resultForm">インダクタンス</label>
-            <input type="radio" id="L" value="H">H
-            <input type="radio" id="L" value="mH">mH
-            <input type="radio" id="L" value="μH" checked="checked">μH
+            <input type="radio" name="L" value="H">H
+            <input type="radio" name="L" value="mH">mH
+            <input type="radio" name="L" value="μH" checked="checked">μH
         </div>
 
         <div id="indVal">
             <input type="number" id="inductance" value=0>
         </div>
+
+        <input type="button" value="H unit" onclick="altHunit()">
+        <input type="button" value="f unit" onclick="altfunit()">
+        <input type="button" value="C unit" onclick="altCunit()">
+
     </form>
 
 </body>
