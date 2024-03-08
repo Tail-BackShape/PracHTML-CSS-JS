@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ラジオボタンの状態アラート</title>
+</head>
+
+<body>
+
+    <h2>ラジオボタンの状態をアラートで表示する</h2>
+
+    <form>
+        <input type="radio" name="radioGroup" id="option1" value="option1">
+        <label for="option1">オプション1</label>
+
+        <input type="radio" name="radioGroup" id="option2" value="option2">
+        <label for="option2">オプション2</label>
+
+        <input type="radio" name="radioGroup" id="option3" value="option3">
+        <label for="option3">オプション3</label>
+
+        <button type="button" onclick="showRadioState()">状態を確認</button>
+    </form>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
