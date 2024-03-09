@@ -1,15 +1,13 @@
 function calcInductance(freq, capa) {
-    na = 1 / ((2 * Math.PI) * Math.sqrt(parseFloat(freq) * parseFloat(capa)));
-    alert(na);
-    console.log(na);
-}
-
-function getElementsUnit() {
     var LUnit = getLunit();
     var fUnit = getfunit();
     var CUnit = getCunit();
-
-    alert("L: " + String(LUnit) + "f: " + String(fUnit) + "C: " + String(CUnit));
+    var ind;
+    ind = 1 / (4 * Math.PI * Math.PI * (freq * fUnit) * (freq * fUnit) * capa * CUnit);
+    ind = ind / LUnit;
+    alert(ind);
+    document.getElementById("inductance").value = ind;
+    console.log(ind);
 }
 
 function getLunit() {
