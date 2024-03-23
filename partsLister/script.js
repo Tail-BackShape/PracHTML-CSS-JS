@@ -1,39 +1,61 @@
-window.onload = function() {
-    // CSVファイルのURL
-    var csvUrl = 'parts.csv';
+document.addEventListener('DOMContentLoaded', function() {
+    const partForm = document.getElementById('partForm');
+    const partList = document.getElementById('partList');
 
-    // CSVファイルを読み込む関数
-    function loadCSV(url, callback) {
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    callback(xhr.responseText);
-                } else {
-                    console.error('Failed to load CSV');
-                }
-            }
-        };
-        xhr.open('GET', url, true);
-        xhr.send();
+    // ローカルストレージからデータを取得する
+    function getDataFromLocalStorage() {
+        return JSON.parse(localStorage.getItem('parts')) || [];
     }
 
-    // CSVをテーブルに表示する関数
-    function displayCSV(csvData) {
-        var lines = csvData.split('\n');
-        var table = document.getElementById('csvTable');
+    // データを保存する
+    function saveDataToLocalStorage(name, quantity) {
+        const parts = getDataFromLocalStorage();
+        parts.push({ name, quantity });
+        localStorage.setItem('parts', JSON.stringify(parts));
+    }
 
-        for (var i = 0; i < lines.length; i++) {
-            var row = table.insertRow();
-            var cells = lines[i].split(',');
+    // ローカルストレージからデータを削除する
+    function deleteDataFromLocalStorage(part) {
+        const parts = getDataFromLocalStorage();
+        const updatedParts = parts.filter(p => p.name !== part.name || p.quantity !== part.quantity);
+        localStorage.setItem('parts', JSON.stringify(updatedParts));
+    }
 
-            for (var j = 0; j < cells.length; j++) {
-                var cell = row.insertCell();
-                cell.textContent = cells[j];
-            }
+    // データを表示する
+    function displayData() {
+        const parts = getDataFromLocalStorage();
+        partList.innerHTML = '';
+        parts.forEach(part => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${part.name} - ${part.quantity}`;
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = '削除';
+            deleteButton.classList.add('delete-btn');
+            deleteButton.addEventListener('click', function() {
+                deleteDataFromLocalStorage(part);
+                displayData();
+            });
+            listItem.appendChild(deleteButton);
+            partList.appendChild(listItem);
+        });
+    }
+
+    // 部品の追加フォームの送信イベントリスナー
+    partForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const partName = document.getElementById('partName').value;
+        const partQuantity = document.getElementById('partQuantity').value;
+
+        if (partName && partQuantity) {
+            saveDataToLocalStorage(partName, partQuantity);
+            displayData();
+            partForm.reset();
+        } else {
+            alert('部品名と数量を入力してください');
         }
-    }
+    });
 
-    // CSVを読み込んで表示
-    loadCSV(csvUrl, displayCSV);
-};
+    // 初期表示時にデータを表示する
+    displayData();
+});
