@@ -8,33 +8,42 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // データを保存する
-    function saveDataToLocalStorage(name, quantity) {
-        const parts = getDataFromLocalStorage();
-        parts.push({ name, quantity });
+    function saveDataToLocalStorage(parts) {
         localStorage.setItem('parts', JSON.stringify(parts));
-    }
-
-    // ローカルストレージからデータを削除する
-    function deleteDataFromLocalStorage(part) {
-        const parts = getDataFromLocalStorage();
-        const updatedParts = parts.filter(p => p.name !== part.name || p.quantity !== part.quantity);
-        localStorage.setItem('parts', JSON.stringify(updatedParts));
     }
 
     // データを表示する
     function displayData() {
         const parts = getDataFromLocalStorage();
         partList.innerHTML = '';
-        parts.forEach(part => {
+        parts.forEach((part, index) => {
             const listItem = document.createElement('li');
             listItem.textContent = `${part.name} - ${part.quantity}`;
+
+            const editButton = document.createElement('button');
+            editButton.textContent = '編集';
+            editButton.classList.add('edit-btn');
+            editButton.addEventListener('click', function() {
+                const newQuantity = prompt('新しい数量を入力してください:', part.quantity);
+                if (newQuantity !== null && !isNaN(newQuantity) && newQuantity !== '') {
+                    parts[index].quantity = parseInt(newQuantity);
+                    saveDataToLocalStorage(parts);
+                    displayData();
+                } else {
+                    alert('数量は数値で入力してください。');
+                }
+            });
+
             const deleteButton = document.createElement('button');
             deleteButton.textContent = '削除';
             deleteButton.classList.add('delete-btn');
             deleteButton.addEventListener('click', function() {
-                deleteDataFromLocalStorage(part);
+                parts.splice(index, 1);
+                saveDataToLocalStorage(parts);
                 displayData();
             });
+
+            listItem.appendChild(editButton);
             listItem.appendChild(deleteButton);
             partList.appendChild(listItem);
         });
@@ -48,7 +57,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const partQuantity = document.getElementById('partQuantity').value;
 
         if (partName && partQuantity) {
-            saveDataToLocalStorage(partName, partQuantity);
+            const parts = getDataFromLocalStorage();
+            parts.push({ name: partName, quantity: parseInt(partQuantity) });
+            saveDataToLocalStorage(parts);
             displayData();
             partForm.reset();
         } else {
