@@ -16,9 +16,43 @@
             <input type="text" id="partName" required>
             <label for="partQuantity">数量:</label>
             <input type="number" id="partQuantity" required>
+            <label for="partTags">タグ:</label>
+            <input type="text" id="partTags">
             <button type="submit">部品を追加</button>
         </form>
-        <ul id="partList"></ul>
+        <div id="tagFilter">
+            <label for="tagSearch">タグで検索:</label>
+            <input type="text" id="tagSearch">
+        </div>
+        <div id="quantityFilter">
+            <label for="minQuantity">最小数量:</label>
+            <input type="number" id="minQuantity">
+            <label for="maxQuantity">最大数量:</label>
+            <input type="number" id="maxQuantity">
+        </div>
+        <table id="partTable">
+            <thead>
+                <tr>
+                    <th>部品名</th>
+                    <th>数量</th>
+                    <th>タグ</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="partList"></tbody>
+        </table>
+    </div>
+
+    <div id="popupContainer" class="popup-container">
+        <div id="popup" class="popup">
+            <h2>部品を編集</h2>
+            <label for="editQuantity">数量:</label>
+            <input type="number" id="editQuantity">
+            <label for="editTags">タグ:</label>
+            <input type="text" id="editTags">
+            <button id="saveEditBtn">保存</button>
+            <button id="cancelEditBtn">キャンセル</button>
+        </div>
     </div>
 
     <script src="script.js"></script>
