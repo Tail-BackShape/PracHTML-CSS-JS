@@ -2,6 +2,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const partForm = document.getElementById('partForm');
     const partList = document.getElementById('partList');
     const tagSearch = document.getElementById('tagSearch');
+    const quantityFilter = document.getElementById('quantityFilter');
+    const tagFilter = document.getElementById('tagFilter');
+    const quantitySearchBtn = document.getElementById('quantitySearchBtn');
+    const tagSearchBtn = document.getElementById('tagSearchBtn');
 
     function getDataFromLocalStorage() {
         return JSON.parse(localStorage.getItem('parts')) || [];
@@ -84,6 +88,16 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             alert('部品名と数量を入力してください');
         }
+    });
+
+    quantitySearchBtn.addEventListener('click', function() {
+        tagFilter.style.display = 'none';
+        quantityFilter.style.display = 'block';
+    });
+
+    tagSearchBtn.addEventListener('click', function() {
+        quantityFilter.style.display = 'none';
+        tagFilter.style.display = 'block';
     });
 
     tagSearch.addEventListener('input', function() {

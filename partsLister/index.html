@@ -20,13 +20,18 @@
             <input type="text" id="partTags">
             <button type="submit">部品を追加</button>
         </form>
-        <div id="tagFilter">
+        <div id="searchButtons">
+            <button id="quantitySearchBtn">数量で検索</button>
+            <button id="tagSearchBtn">タグで検索</button>
+        </div>
+        <div id="tagFilter" style="display:none;">
             <label for="tagSearch">タグで検索:</label>
             <input type="text" id="tagSearch">
         </div>
-        <div id="quantityFilter">
+        <div id="quantityFilter" style="display:none;">
             <label for="minQuantity">最小数量:</label>
             <input type="number" id="minQuantity">
+            <br>
             <label for="maxQuantity">最大数量:</label>
             <input type="number" id="maxQuantity">
         </div>
