@@ -7,16 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const quantitySearchBtn = document.getElementById('quantitySearchBtn');
     const tagSearchBtn = document.getElementById('tagSearchBtn');
 
-    function getDataFromLocalStorage() {
-        return JSON.parse(localStorage.getItem('parts')) || [];
-    }
-
-    function saveDataToLocalStorage(parts) {
-        localStorage.setItem('parts', JSON.stringify(parts));
-    }
-
-    function displayData() {
-        const parts = getDataFromLocalStorage();
+    function displayData(parts) {
         partList.innerHTML = '';
         parts.forEach((part, index) => {
             const row = document.createElement('tr');
@@ -49,8 +40,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (!isNaN(newQuantity) && newQuantity >= 0) {
                         part.quantity = newQuantity;
                         part.tags = newTags;
-                        saveDataToLocalStorage(parts);
-                        displayData();
+                        saveDataToFile(parts);
+                        displayData(parts);
                         document.getElementById('popupContainer').style.display = 'none';
                     } else {
                         alert('数量は正の整数で入力してください。');
@@ -64,51 +55,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
             deleteButton.addEventListener('click', function() {
                 parts.splice(index, 1);
-                saveDataToLocalStorage(parts);
-                displayData();
+                saveDataToFile(parts);
+                displayData(parts);
             });
 
             partList.appendChild(row);
         });
     }
 
-    partForm.addEventListener('submit', function(event) {
-        event.preventDefault();
+    function saveDataToFile(data) {
+        const jsonData = JSON.stringify(data);
+        const blob = new Blob([jsonData], { type: 'application/json' });
+        const url = window.URL.createObjectURL(blob);
 
-        const partName = document.getElementById('partName').value;
-        const partQuantity = document.getElementById('partQuantity').value;
-        const partTags = document.getElementById('partTags').value.split(',').map(tag => tag.trim());
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'data.json';
+        a.click();
 
-        if (partName && partQuantity) {
-            const parts = getDataFromLocalStorage();
-            parts.push({ name: partName, quantity: parseInt(partQuantity), tags: partTags });
-            saveDataToLocalStorage(parts);
-            displayData();
-            partForm.reset();
-        } else {
-            alert('部品名と数量を入力してください');
-        }
-    });
+        window.URL.revokeObjectURL(url);
+    }
 
-    quantitySearchBtn.addEventListener('click', function() {
-        tagFilter.style.display = 'none';
-        quantityFilter.style.display = 'block';
-    });
-
-    tagSearchBtn.addEventListener('click', function() {
-        quantityFilter.style.display = 'none';
-        tagFilter.style.display = 'block';
-    });
-
-    tagSearch.addEventListener('input', function() {
-        const searchValue = tagSearch.value.trim();
-        const parts = getDataFromLocalStorage();
-        const filteredParts = parts.filter(part => part.tags.some(tag => tag.includes(searchValue)));
-        displayFilteredData(filteredParts);
-    });
-
-    document.getElementById('minQuantity').addEventListener('input', filterByQuantity);
-    document.getElementById('maxQuantity').addEventListener('input', filterByQuantity);
+    function loadDataFromFile(file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const data = JSON.parse(event.target.result);
+            displayData(data);
+        };
+        reader.readAsText(file);
+    }
 
     function filterByQuantity() {
         const minQuantity = parseInt(document.getElementById('minQuantity').value);
@@ -126,12 +101,56 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             return part.quantity >= minQuantity && part.quantity <= maxQuantity;
         });
-        displayFilteredData(filteredParts);
+        displayData(filteredParts);
     }
 
-    function displayFilteredData(filteredParts) {
+    function getDataFromLocalStorage() {
+        return JSON.parse(localStorage.getItem('parts')) || [];
+    }
+
+    partForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const partName = document.getElementById('partName').value;
+        const partQuantity = document.getElementById('partQuantity').value;
+        const partTags = document.getElementById('partTags').value.split(',').map(tag => tag.trim());
+
+        if (partName && partQuantity) {
+            const parts = getDataFromLocalStorage();
+            parts.push({ name: partName, quantity: parseInt(partQuantity), tags: partTags });
+            saveDataToFile(parts);
+            displayData(parts);
+            partForm.reset();
+        } else {
+            alert('部品名と数量は必須です。');
+        }
+    });
+
+    quantitySearchBtn.addEventListener('click', function() {
+        quantityFilter.style.display = 'block';
+        tagFilter.style.display = 'none';
+    });
+
+    tagSearchBtn.addEventListener('click', function() {
+        tagFilter.style.display = 'block';
+        quantityFilter.style.display = 'none';
+    });
+
+    tagSearch.addEventListener('input', function() {
+        const searchValue = tagSearch.value.toLowerCase();
+        const parts = getDataFromLocalStorage();
+        const filteredParts = parts.filter(part => {
+            return part.tags.some(tag => tag.toLowerCase().includes(searchValue));
+        });
+        displayData(filteredParts);
+    });
+
+    document.getElementById('minQuantity').addEventListener('input', filterByQuantity);
+    document.getElementById('maxQuantity').addEventListener('input', filterByQuantity);
+
+    function displayData(parts) {
         partList.innerHTML = '';
-        filteredParts.forEach(part => {
+        parts.forEach((part, index) => {
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${part.name}</td>
@@ -162,8 +181,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (!isNaN(newQuantity) && newQuantity >= 0) {
                         part.quantity = newQuantity;
                         part.tags = newTags;
-                        saveDataToLocalStorage(parts);
-                        displayData();
+                        saveDataToFile(parts);
+                        displayData(parts);
                         document.getElementById('popupContainer').style.display = 'none';
                     } else {
                         alert('数量は正の整数で入力してください。');
@@ -176,16 +195,36 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             deleteButton.addEventListener('click', function() {
-                const index = parts.findIndex(p => p === part);
                 parts.splice(index, 1);
-                saveDataToLocalStorage(parts);
-                displayFilteredData(filteredParts);
+                saveDataToFile(parts);
+                displayData(parts);
             });
 
             partList.appendChild(row);
         });
     }
 
-    displayData();
+    function getDataFromLocalStorage() {
+        return JSON.parse(localStorage.getItem('parts')) || [];
+    }
+
+    function saveDataToFile(data) {
+        const jsonData = JSON.stringify(data);
+        const blob = new Blob([jsonData], { type: 'application/json' });
+        const url = window.URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'data.json';
+        a.click();
+
+        window.URL.revokeObjectURL(url);
+    }
+
+    // 初回読み込み時にデータを表示
+    fetch('data.json')
+        .then(response => response.json())
+        .then(data => displayData(data))
+        .catch(error => console.error('データを読み込めませんでした:', error));
 });
 
